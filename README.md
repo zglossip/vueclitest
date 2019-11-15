@@ -29,4 +29,4 @@ npm run lint
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ### Copyright notice
-All data provided by [Deezer](https://developers.deezer.com/).
+All data provided by [MusicBrainz](http://musicbrainz.org).
