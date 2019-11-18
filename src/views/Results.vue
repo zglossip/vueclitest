@@ -2,7 +2,7 @@
   <div class="container">
     <search-bar></search-bar>
     <div class="row mt-3">
-      <b-table striped hover :items="results"></b-table>
+      <b-table striped hover bordered :items="results"></b-table>
     </div>
   </div>
 </template>
@@ -31,9 +31,18 @@
       } else {
         SearchService.searchAlbum(this.$route.query.query).then(response => {
           this.results = response.data['release-groups'].map(release => {
+            let artist = ""
+            let joinArtists = ""
+            release['artist-credit'].forEach(artistCredit => {
+              if(artistCredit.joinphrase){
+                joinArtists += artistCredit.joinphrase + artistCredit.artist.name
+              } else {
+                artist = artistCredit.artist.name
+              }
+            })
             return {
               title: release.title,
-              artist: release['artist-credit'].name,
+              artist: artist + joinArtists,
               release_type: release['primary-type']
             }
           })
