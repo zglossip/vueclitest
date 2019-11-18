@@ -1,6 +1,6 @@
-import { expect } from 'chai'
+import { assert } from 'chai'
 import sinon from "sinon";
-import { shallowMount, createLocalVue } from '@vue/test-utils'
+import { mount, createLocalVue } from '@vue/test-utils'
 import SearchBar from "../../src/components/SearchBar"
 import BootstrapVue from "bootstrap-vue"
 
@@ -8,17 +8,17 @@ describe('SearchBar.vue', () => {
   const localVue = createLocalVue()
   localVue.use(BootstrapVue)
 
-  const $router = {
-    push: function () {},
-    go: function () {}
-  };
+  const mocks = {
+    $router: {
+      push: function () {},
+      go: function () {}
+    }
+  }
 
-  it('renders props.msg when passed', () => {
-    //TODO: Fix this test, why is spy not working?
-    let pushSpy = sinon.spy($router, 'push')
-    const wrapper = shallowMount(SearchBar, {localVue, mocks: {$router}})
+  it('Reroutes page on click', () => {
+    const pushSpy = sinon.spy(mocks.$router, 'push')
+    const wrapper = mount(SearchBar, {localVue, mocks})
     wrapper.find('#search-button').trigger('click')
-    console.log(pushSpy.getCalls())
-    expect(true)
+    assert(pushSpy.calledWithExactly(`/searchResults/artist?query=`))
   })
 })
